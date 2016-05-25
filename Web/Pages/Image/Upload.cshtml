@@ -1,0 +1,53 @@
+﻿@using _EPAM_Entites;
+@using _EPAM_Intefases.BLL;
+@using _EPAM_BLL;
+@{
+    if (!IsPost)
+    {
+
+        Response.SetStatus(HttpStatusCode.NotFound);
+        return;
+    }
+
+    var return_url = Request["ReturnUrl"];
+    var file = Request.Files["uploaded"];
+    int image_id;
+
+    if (file == null || file.ContentLength == 0)
+    {
+        Response.SetStatus(HttpStatusCode.BadRequest);
+        return;
+    }
+
+    byte[] imageContent = new byte[file.ContentLength];
+    file.InputStream.Read(imageContent, 0, imageContent.Length);
+    var imageFile = new ImageDTO();
+
+    imageFile.Content = imageContent;
+    imageFile.ContentType = file.ContentType;
+
+    if (Request["UserId"] != null)
+    {
+        var user_id = Guid.Parse(Request["UserId"]);
+        IUserBLL logic_user = new UserLogic();
+        image_id = logic_user.CreateImage(imageFile);
+        logic_user.SetImageToUser(user_id, image_id);
+    }
+
+    if (Request["AwardId"] != null)
+    {
+        var award_id = Guid.Parse(Request["AwardId"]);
+        IAwardBLL logic_award = new AwardLogic();
+        image_id = logic_award.CreateImage(imageFile);
+        logic_award.SetImageToUser(award_id, image_id);
+    }
+
+    if (string.IsNullOrWhiteSpace(return_url))
+    {
+        return_url = "~";
+    }
+    Response.Redirect(return_url);
+    return;
+}
+
+<input type="hidden" name="ReturnUrl" value="@Request["ReturnUrl"]" />

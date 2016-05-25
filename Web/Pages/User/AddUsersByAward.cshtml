@@ -1,0 +1,53 @@
+﻿@using _EPAM_Entites;
+@if (!User.IsInRole("admin"))
+{
+    Response.SetStatus(HttpStatusCode.Forbidden);
+    return;
+}
+
+@{
+   
+    var logic = new _EPAM_BLL.UserLogic();
+    var logic2 = new _EPAM_BLL.AwardLogic();
+    var user_award_logic = new _EPAM_BLL.UserAwardLogic();
+    if (IsPost)
+    {
+        char[] separator = { ',' };
+        Guid award_id = Guid.Parse(Request["GetAward"]);
+        string[] temp_awards_id = Request["GetUsers"].Split(separator, StringSplitOptions.RemoveEmptyEntries);
+        List<Guid> users_id = new List<Guid>();
+        foreach (var item in temp_awards_id)
+        {
+            users_id.Add(Guid.Parse(item));
+        }
+        foreach (var item in users_id)
+        {
+            user_award_logic.Create(new UserAwardDTO(item, award_id));
+        }
+    }
+}
+
+<form method="post">
+    <select name="GetUsers" multiple="multiple">
+        @foreach (var item in logic.GetAll())
+        {
+
+            <option value="@item.Id,">
+                @item.Name
+                @item.DateOfBith.ToString("dd/MM/yyyy")
+                @item.Age
+            </option>
+        }
+
+    </select>
+    <select name="GetAward">
+        @foreach (var item in logic2.GetAll())
+        {
+            <option value="@item.Id">
+                @item.Title
+            </option>
+        }
+    </select>
+    <button>Add Users By Award</button>
+</form>
+<a href="~/Default.cshtml">Back</a>

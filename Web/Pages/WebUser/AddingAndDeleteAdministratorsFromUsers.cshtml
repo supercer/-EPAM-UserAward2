@@ -1,0 +1,78 @@
+﻿@using _EPAM_Entites;
+@if (!User.IsInRole("admin"))
+{
+    Response.SetStatus(HttpStatusCode.Forbidden);
+    return;
+}
+
+@{
+    var web_user_logic = new _EPAM_BLL.WebUserLogic();
+    var role_logic = new _EPAM_BLL.RoleLogic();
+    var web_user_role_logic = new _EPAM_BLL.WebUserRoleLogic();
+    if (IsPost)
+    {
+        char[] separator = { ',' };
+        string[] web_users_id;
+        var temp_web_users_id = Request["AddingAdministratorsFromUsers"];
+        if (temp_web_users_id != null)
+        {
+            web_users_id = temp_web_users_id.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var item in web_users_id)
+            {
+                if (!web_user_role_logic.IsWebUserInRole(web_user_logic.Get(int.Parse(item)).Name, "admin"))
+                {
+                    web_user_role_logic.Create(new WebUserRoleDTO(int.Parse(item), role_logic.GetIdAnRoleName("admin")));
+                }
+            }
+        }
+        string[] web_users_id_remove;
+        var temp_web_users_id_remove = Request["DeleteAdministrators"];
+        if (temp_web_users_id_remove != null)
+        {
+            web_users_id_remove = temp_web_users_id_remove.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var item in web_users_id_remove)
+            {
+                web_user_role_logic.Delete(new WebUserRoleDTO(int.Parse(item), role_logic.GetIdAnRoleName("admin")));
+            }
+        }
+    }
+}
+
+<form method="post" enctype="multipart/form-data" role="form">
+    <div class="form-group">
+        <select name="AddingAdministratorsFromUsers" multiple="multiple">
+            @foreach (var item in web_user_logic.GetAll())
+            {
+                <option value="@item.Id,">
+                    UserName:
+                    @item.Name
+                    Role:
+                    @foreach (var role in web_user_role_logic.GetRolesForUser(item.Name))
+                {
+                        <span>@role</span>
+                    }
+                </option>
+            }
+        </select>
+        <button>Set administrator</button>
+        </div >
+    <div class="form-group">
+        <select name="DeleteAdministrators" multiple="multiple">
+            @foreach (var item in web_user_logic.GetAll())
+            {
+                <option value="@item.Id,">
+                    UserName:
+                    @item.Name
+                    Role:
+                    @foreach (var role in web_user_role_logic.GetRolesForUser(item.Name))
+                {
+                        <span>@role</span>
+                    }
+                </option>
+            }
+        </select>
+        <button>Delete administrator</button>
+        </div>
+</form>
+
+<a href="~/Default.cshtml">Back</a>

@@ -1,0 +1,51 @@
+﻿@using _EPAM_Entites;
+@if (!User.IsInRole("admin"))
+{
+    Response.SetStatus(HttpStatusCode.Forbidden);
+    return;
+}
+
+@{
+    var logic_award = new _EPAM_BLL.AwardLogic();
+   
+    if (IsPost)
+    {
+        logic_award.Create(new AwardDTO(Request["TitleAward"]));
+    }
+}
+
+<form method="post" enctype="multipart/form-data" role="form">
+    <div class="form-group">   
+    <h2>Create new award</h2>
+    <label for="TitleAward">Name</label>
+    <input id="TitleAward" type="text" name="TitleAward" />
+    <button>create</button>
+</div>
+
+    <div class="form-group">
+        <ul>
+            @foreach (var item in logic_award.GetAll())
+            {
+
+                <li>
+                    @item.Title
+                    @if (item.ImageId != null)
+                {
+                        <img width="40px" height="40px" src="~/Pages/Image/View?id=@item.ImageId" class="img-responsive img-rounded" />
+                    }
+                    else
+                    {
+                        <form action="~/Pages/Image/Upload.cshtml" method="post" enctype="multipart/form-data" role="form">
+                            <img width="40px" height="40px" src="~/Pages/Image/View?id=1" class="img-responsive img-rounded" />             
+                            <input type="hidden" name="ReturnUrl" value="@Request.Url" />
+                        </form>
+                    }
+                </li>
+            }
+        </ul>
+        </div>
+</form>
+
+<div>
+    <a href="~/Default.cshtml">Back</a>
+</div>

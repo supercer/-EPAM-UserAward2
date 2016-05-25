@@ -1,0 +1,32 @@
+﻿@using _EPAM_Entites;
+@{
+    var logic = new _EPAM_BLL.AwardLogic();
+}
+<ul>
+    @foreach (var item in logic.GetAll())
+    {
+
+        <li>
+            @item.Title
+            @if (item.ImageId != null)
+            {
+                <img width="40px" height="40px" src="~/Pages/Image/View?id=@item.ImageId" class="img-responsive img-rounded" />
+            }
+            else
+            {
+                <form action="~/Pages/Image/Upload.cshtml" method="post" enctype="multipart/form-data" role="form">
+                    <img width="40px" height="40px" src="~/Pages/Image/View?id=1" class="img-responsive img-rounded" />
+                    <div class="form-group">
+                        <label for="uploaded" class="control-label">Choose file for upload</label>
+                        <input type="file" class="form-control" id="uploaded" name="uploaded" />
+                    </div>
+                    <input type="hidden" name="ReturnUrl" value="@Request.Url" />
+                    <input type="hidden" name="AwardId" value="@item.Id" />
+                    <button type="submit" class="btn btn-default">Upload image</button>
+                </form>
+            }
+        </li>
+    }
+</ul>
+<a href="~/Default.cshtml">Back</a>
+

@@ -1,0 +1,34 @@
+﻿@using _EPAM_Entites;
+@if (!User.IsInRole("admin"))
+{
+    Response.SetStatus(HttpStatusCode.Forbidden);
+    return;
+}
+
+@{
+    var logic = new _EPAM_BLL.UserLogic();
+    if (IsPost)
+    {
+        char[] separator = { ',' };
+        string[] users_id = Request["DeleteUser"].Split(separator, StringSplitOptions.RemoveEmptyEntries);
+        foreach (var item in users_id)
+        {
+            logic.Delete(Guid.Parse(item));
+        }
+    }
+}
+<form method="post">
+    <select name="DeleteUser" multiple="multiple">
+        @foreach (var item in logic.GetAll())
+        {
+
+            <option value="@item.Id,">
+                    @item.Name
+                    @item.DateOfBith.ToString("dd/MM/yyyy")
+                    @item.Age
+            </option>
+        }
+    </select>
+    <button>delete</button>
+</form>
+<a href="~/Default.cshtml">Back</a>

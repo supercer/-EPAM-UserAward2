@@ -1,0 +1,56 @@
+﻿@using _EPAM_Entites;
+@if (!User.IsInRole("admin"))
+{
+    Response.SetStatus(HttpStatusCode.Forbidden);
+    return;
+}
+
+@{
+    var logic = new _EPAM_BLL.UserLogic();
+    DateTime date_of_birth = new DateTime();
+    string name = null;
+    if (IsPost)
+    {
+         date_of_birth = DateTime.Parse(Request["calendar"]);
+        name = Request["NameUser"];
+
+        logic.Create(new UserDTO(name, date_of_birth));
+    }
+}
+
+<form method="post">
+    <div class="form-group">
+        <h2>Create new user</h2>
+        <label for="NameUser">Name</label>
+        <input id="NameUser" type="text" name="NameUser"/>
+        <label for="DateOfBirth">Date Of Birth</label>
+        <input id="DateOfBirth" type="date" name="calendar">
+        <button >create</button>
+    </div>
+     <div class="form-group">
+    <ul>
+        @foreach (var item in logic.GetAll())
+        {
+            <li>
+                @item.Name
+                @item.DateOfBith.ToString("dd/MM/yyyy")
+                @item.Age
+                @if (item.ImageId != null)
+                {
+                    <img width="40px" height="40px" src="~/Pages/Image/View?id=@item.ImageId" class="img-responsive img-rounded" />
+                }
+                else
+                {
+                    <form action="~/Pages/Image/Upload.cshtml" method="post" enctype="multipart/form-data" role="form">
+                        <img width="40px" height="40px" src="~/Pages/Image/View?id=1" class="img-responsive img-rounded" />
+                        <input type="hidden" name="ReturnUrl" value="@Request.Url" />
+                    </form>
+                }
+            </li>
+        }
+    </ul>
+         </div>
+</form>
+<div>
+    <a href="~/Default.cshtml">Back</a>
+</div>

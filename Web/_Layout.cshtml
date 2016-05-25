@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+        <title>@Page.Title</title>
+    </head>
+    <body>
+        @if (User.Identity.IsAuthenticated)
+        {
+            @User.Identity.Name
+        <a href="~/Logout">Logout</a>
+        }
+        else
+        {
+            <a href="~/Login.cshtml">login</a>
+            <a href="~/Registration.cshtml">Registration</a>
+        }
+        @RenderBody()
+        <script src="~/scripts/jquery-1.9.1.min.js"></script>
+        <script src="~/scripts/bootstrap.min.js"></script>
+    </body>
+</html>

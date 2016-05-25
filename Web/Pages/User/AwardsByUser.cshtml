@@ -1,0 +1,24 @@
+﻿<div>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        Response.SetStatus(HttpStatusCode.Unauthorized);
+        return;
+    }
+    @{
+        var logic_user_award = new _EPAM_BLL.UserAwardLogic();
+        foreach (var item in logic_user_award.AwardsByUser())
+        {
+            <p>@item.Key.Name @item.Key.DateOfBith.ToString("dd/MM/yyyy") @item.Key.Age</p>
+            foreach (var item2 in item.Value)
+            {
+                <p>@item2.Title</p>
+            }
+            System.Console.WriteLine();
+        }
+
+    }
+</div>
+
+<div>
+    <a href="~/Default.cshtml">Back</a>
+</div>

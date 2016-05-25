@@ -1,0 +1,29 @@
+﻿@{Page.Title = "Default";}
+<div>
+    <ul>
+        <li><a href="~/Pages/User/index.cshtml"> View all users</a></li>
+        @if (User.IsInRole("admin"))
+        {
+        <li><a href="~/Pages/User/Add.cshtml">Add User</a></li>
+        <li><a href="~/Pages/User/Delete.cshtml">Delete User</a></li>
+        <li><a href="~/Pages/User/Update.cshtml">Update User</a></li>
+        <li><a href="~/Pages/Award/index.cshtml">View all award</a></li>
+        <li><a href="~/Pages/Award/Add.cshtml">Add award</a></li>
+        <li><a href="~/Pages/Award/Delete.cshtml">Delete award</a></li>
+        <li><a href="~/Pages/Award/Update.cshtml">Update award</a></li>
+        }
+         @if (User.Identity.IsAuthenticated)
+         {
+        <li><a href="~/Pages/User/AwardsByUser.cshtml">Print AwardsByUser</a></li>
+        <li><a href="~/Pages/User/UsersByAward.cshtml">Print UsersByAward</a></li>
+         }
+
+         @if (User.IsInRole("admin"))
+         {
+        <li><a href="~/Pages/User/AddAwardsByUser.cshtml">Add Awards ByUser</a></li>
+        <li><a href="~/Pages/User/AddUsersByAward.cshtml">Add Users By Award</a></li>
+        <li><a href="~/Pages/WebUser/AddingAndDeleteAdministratorsFromUsers.cshtml">Adding and delete administrators from users</a></li>
+         }
+    </ul>
+</div>
+ 

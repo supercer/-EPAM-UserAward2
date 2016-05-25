@@ -1,0 +1,37 @@
+﻿@using _EPAM_Entites;
+@if (!User.IsInRole("admin"))
+{
+    Response.SetStatus(HttpStatusCode.Forbidden);
+    return;
+}
+
+@{
+    var logic = new _EPAM_BLL.AwardLogic();
+    AwardDTO award = new AwardDTO();
+    if (IsPost)
+    {
+        award.Id = Guid.Parse(Request["UpdateAward"]);
+        award.Title = Request["TitleAward"];
+        logic.Update(award);
+
+    }
+}
+
+<form method="post">
+    <select name="UpdateAward">
+        @foreach (var item in logic.GetAll())
+        {
+            <option value="@item.Id">
+                @item.Title
+            </option>
+        }
+    </select>
+    <div>
+        <h2>Update user</h2>
+        <label for="TitleAward">Title award</label>
+        <input id="TitleAward" type="text" name="TitleAward" />
+    </div>
+    <button>Udpate</button>
+</form>
+
+<a href="~/Default.cshtml">Back</a>

@@ -1,0 +1,44 @@
+﻿@using _EPAM_Entites;
+@if (!User.IsInRole("admin"))
+{
+    Response.SetStatus(HttpStatusCode.Forbidden);
+    return;
+}
+@{
+    var logic = new _EPAM_BLL.AwardLogic();
+    var logic_user_award = new _EPAM_BLL.UserAwardLogic();
+    if (IsPost)
+    {
+        char[] separator = { ',' };
+        string[] awards_id = Request["DeleteUser"].Split(separator, StringSplitOptions.RemoveEmptyEntries);
+        foreach (var item in awards_id)
+        {
+            foreach (var item2 in logic_user_award.GetAll())
+            {
+                if (Guid.Parse(item) == item2.AwardId)
+                {
+                    logic_user_award.Delete(item2);
+                }
+            }
+
+            logic.Delete(Guid.Parse(item));
+        }
+    }
+}
+
+<form method="post">
+    <select id="DeleteUser" name="DeleteUser" multiple="multiple">
+        @foreach (var item in logic.GetAll())
+        {
+            <option value="@item.Id,">
+                @item.Title
+            </option>
+        }
+    </select> 
+    <button id="delete">delete</button>
+</form>
+
+<div>
+    <a href="~/Default.cshtml">Back</a>
+</div>
+<script src="~/scripts/DeleteAward.js"></script>

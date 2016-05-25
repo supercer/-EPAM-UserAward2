@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{73BB53E3-EC98-4C08-A0D4-C8A9DB8B2A61}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>_EPAM_UserAward.BLL</RootNamespace>
+    <AssemblyName>[EPAM]UserAward.BLL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UserAwardLogic.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{187860e2-55fd-4fdd-acf6-4b8c35508d00}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\[EPAM]Award.DAL\[EPAM]Award.DAL.csproj">
+      <Project>{106fc939-1526-48bf-913c-3167e137528e}</Project>
+      <Name>[EPAM]Award.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\[EPAM]Award.Intefases.DAL\[EPAM]Award.Intefases.DAL.csproj">
+      <Project>{ca6ba78d-02e7-4b81-b460-09b2966fc65e}</Project>
+      <Name>[EPAM]Award.Intefases.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\[EPAM]NoteSaver.DAL.Collection\[EPAM]User.DAL.csproj">
+      <Project>{6667a219-0daf-4dc8-aebe-f3faa68e8b18}</Project>
+      <Name>[EPAM]User.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\[EPAM]NoteSaver.Entites\[EPAM].Entites.csproj">
+      <Project>{14feb26e-10bb-476b-9ca7-fa310766e70f}</Project>
+      <Name>[EPAM].Entites</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\[EPAM]NoteSaver.Interfases.DAL\[EPAM]User.Interfases.DAL.csproj">
+      <Project>{c761e15b-902c-4b8e-acf8-4229cd734c32}</Project>
+      <Name>[EPAM]User.Interfases.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\[EPAM]UserAward.DAL\[EPAM]UserAward.DAL.csproj">
+      <Project>{77ad1877-5c03-41f3-89ad-60a38f880caf}</Project>
+      <Name>[EPAM]UserAward.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\[EPAM]UserAward.Interfases.BLL\[EPAM]UserAward.Interfases.BLL.csproj">
+      <Project>{87620f54-ba3f-42d4-827d-8106a982a277}</Project>
+      <Name>[EPAM]UserAward.Interfases.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\[EPAM]UserAward.Interfases.DAL\[EPAM]UserAward.Interfases.DAL.csproj">
+      <Project>{352dc6dd-eb55-4415-a627-62150a4eaf8f}</Project>
+      <Name>[EPAM]UserAward.Interfases.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
